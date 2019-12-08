@@ -1,0 +1,13 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: prod-viewer-binding
+  namespace: production-support
+subjects:
+- kind: User
+  name: eks-prod-viewer
+  apiGroup: ""
+roleRef:
+  kind: Role
+  name: prod-viewer-role
+  apiGroup: ""
