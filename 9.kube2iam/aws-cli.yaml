@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: aws-cli
+  labels:
+    name: aws-cli
+  annotations:
+    iam.amazonaws.com/role: <ROLE  ex: k8s-s3-list-bucket-role ROLE ARN>
+spec:
+  containers:
+    - image: cgswong/aws:aws
+      command:
+        - "sleep"
+        - "9999"
+      name: aws-cli
