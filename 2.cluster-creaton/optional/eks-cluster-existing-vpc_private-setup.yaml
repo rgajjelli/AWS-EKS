@@ -1,0 +1,34 @@
+# An example of ClusterConfig object using an existing VPC:
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: eks-k8s-cluster
+  region: us-east-1
+
+vpc:
+  id: "vpc-0dd338ecf29863c55"  # (optional, must match VPC ID used for each subnet below)
+  cidr: "192.168.0.0/16"       # (optional, must match CIDR used by the given VPC)
+  subnets:
+    # must provide 'private' and/or 'public' subnets by availibility zone as shown
+    private:
+      us-east-1a:
+        id: "subnet-0b2512f8c6ae9bf30"
+        cidr: "192.168.128.0/19" # (optional, must match CIDR used by the given subnet)
+
+      us-east-1b:
+        id: "subnet-08cb9a2ed60394ce3"
+        cidr: "192.168.64.0/19"  # (optional, must match CIDR used by the given subnet)
+
+      us-east-1c:
+        id: "subnet-00f71956cdec8f1dc"
+        cidr: "192.168.0.0/19"   # (optional, must match CIDR used by the given subnet)
+
+nodeGroups:
+  - name: eks-k8s-nodegroup
+    instanceType: t2.medium
+    desiredCapacity: 2
+    privateNetworking: true # if only 'Private' subnets are given, this must be enabled
+    ssh: # use existing EC2 key
+      publicKeyName: eks-publickey

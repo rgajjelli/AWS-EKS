@@ -1,0 +1,18 @@
+
+# Add this to IAM role of EC2 worker nodes ( Add as inline policy)
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "autoscaling:DescribeAutoScalingGroups",
+          "autoscaling:DescribeAutoScalingInstances",
+          "autoscaling:DescribeTags",
+          "autoscaling:SetDesiredCapacity",
+          "autoscaling:TerminateInstanceInAutoScalingGroup"
+        ],
+        "Resource": "*"
+      }
+    ]
+  }

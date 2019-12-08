@@ -1,0 +1,49 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: eks-k8s-cluster
+  region: us-east-1
+nodeGroups:
+  - name: scale-east1a  # vertical scaling - stateful applications in single - az
+    instanceType: t2.small
+    desiredCapacity: 1
+    maxSize: 10
+    availabilityZones: ["us-east-1a"]
+    iam:
+      withAddonPolicies:
+        autoScaler: true
+    labels:
+      nodegroup-type: stateful-east1a
+      instance-type: onDemand
+    ssh: # use existing EC2 key
+      publicKeyName: eks-publickey
+  - name: scale-east1b  # vertical scaling - stateful applications in single - az
+    instanceType: t2.small
+    desiredCapacity: 1
+    maxSize: 10
+    availabilityZones: ["us-east-1b"]
+    iam:
+      withAddonPolicies:
+        autoScaler: true
+    labels:
+      nodegroup-type: stateful-east1b
+      instance-type: onDemand
+    ssh: # use existing EC2 key
+      publicKeyName: eks-publickey
+  - name: scale-spot # horizontal scaling - stateless applications in multi - az
+    desiredCapacity: 1
+    maxSize: 10
+    instancesDistribution:
+      instanceTypes: ["t2.small", "t3.small"]
+      onDemandBaseCapacity: 0
+      onDemandPercentageAboveBaseCapacity: 0
+    availabilityZones: ["us-east-1a", "us-east-1b"]
+    iam:
+      withAddonPolicies:
+        autoScaler: true
+    labels:
+      nodegroup-type: stateless-workload
+      instance-type: spot  # horizontal scaling - specify instance type.
+    ssh:
+      publicKeyName: eks-publickey
