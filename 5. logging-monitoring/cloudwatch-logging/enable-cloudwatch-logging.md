@@ -2,7 +2,7 @@
 
 ## enable e.g. via yaml config file
 
-eksctl utils update-cluster-logging --config-file eks-course.yaml --approve
+eksctl utils update-cluster-logging --config-file eks-cloudwatch-log-enabled.yaml --approve
 
 ## disable via plain commandline call
 
